@@ -3,9 +3,7 @@ import os
 
 from googleapiclient.discovery import build
 
-# channel_id_Pasha = 'UCWAG9jHxDDCoLjDzr7FS1iA'  # Настольный Сюрр
-# channel = youtube.channels().list(id=channel_id, part='snippet, statistics').execute()
-# print(channel)
+channel_id_Pasha = 'UCWAG9jHxDDCoLjDzr7FS1iA'  # Настольный Сюрр
 
 
 class Channel:
@@ -36,25 +34,26 @@ class Channel:
         print(json.dumps(self.channel, indent=2, ensure_ascii=False))
 
     def to_json(self, name_file):
+        json_data = json.dumps(self.data, ensure_ascii=False)
         with open(name_file, "w", encoding="UTF-8") as file:
-            json.dump(self.data, file)
+            file.write(json_data)
 
     @classmethod
     def get_service(cls):
         return cls.youtube
 
 
-# if __name__ == '__main__':
-#     PashaSurr = Channel(channel_id_Pasha)
-#     PashaSurr.to_json("data_channel.json")
-    # print(PashaSurr.channel_id)
-    # print(PashaSurr.title)
-    # print(PashaSurr.description)
-    # print(PashaSurr.url)
-    # print(PashaSurr.subscriber_count)
-    # print(PashaSurr.video_count)
-    # print(PashaSurr.view_count)
-    # print(PashaSurr.youtube)
-    # PashaSurr.print_info()
+if __name__ == '__main__':
+    PashaSurr = Channel(channel_id_Pasha)
+    PashaSurr.to_json("data_channel.json")
+    print(PashaSurr.channel_id)
+    print(PashaSurr.title)
+    print(PashaSurr.description)
+    print(PashaSurr.url)
+    print(PashaSurr.subscriber_count)
+    print(PashaSurr.video_count)
+    print(PashaSurr.view_count)
+    print(PashaSurr.youtube)
+    PashaSurr.print_info()
 
 
