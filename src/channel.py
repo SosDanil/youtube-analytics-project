@@ -8,13 +8,10 @@ channel_id_Pasha = 'UCWAG9jHxDDCoLjDzr7FS1iA'  # Настольный Сюрр
 
 class Channel:
     """Класс для ютуб-канала"""
-    api_key = os.getenv("YT_API_KEY")
-    youtube = build("youtube", 'v3', developerKey=api_key)
-
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализирует id канала. Дальше все данные будут подтягиваться по API."""
         self.__channel_id = channel_id
-        self.channel = Channel.youtube.channels().list(id=self.channel_id, part='snippet, statistics').execute()
+        self.channel = Channel.get_service().channels().list(id=self.channel_id, part='snippet, statistics').execute()
         self.title = self.channel["items"][0]["snippet"]["title"]
         self.description = self.channel["items"][0]["snippet"]["description"]
         self.url = self.channel["items"][0]["snippet"]["thumbnails"]["high"]["url"]
@@ -34,13 +31,16 @@ class Channel:
         print(json.dumps(self.channel, indent=2, ensure_ascii=False))
 
     def to_json(self, name_file):
-        json_data = json.dumps(self.data, ensure_ascii=False)
+        data = {"title": self.title, "description": self.description, "url": self.url,
+                "subscriber_count": self.subscriber_count, "video_count": self.video_count,
+                "view_count": self.view_count}
         with open(name_file, "w", encoding="UTF-8") as file:
-            file.write(json_data)
+            json.dump(data, file, ensure_ascii=False)
 
     @classmethod
     def get_service(cls):
-        return cls.youtube
+        api_key = os.getenv("YT_API_KEY")
+        return build("youtube", 'v3', developerKey=api_key)
 
 
 if __name__ == '__main__':
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     print(PashaSurr.subscriber_count)
     print(PashaSurr.video_count)
     print(PashaSurr.view_count)
-    print(PashaSurr.youtube)
+    print(PashaSurr.get_service())
     PashaSurr.print_info()
 
 
