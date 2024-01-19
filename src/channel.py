@@ -14,13 +14,41 @@ class Channel:
         self.channel = Channel.get_service().channels().list(id=self.channel_id, part='snippet, statistics').execute()
         self.title = self.channel["items"][0]["snippet"]["title"]
         self.description = self.channel["items"][0]["snippet"]["description"]
-        self.url = self.channel["items"][0]["snippet"]["thumbnails"]["high"]["url"]
         self.subscriber_count = self.channel["items"][0]["statistics"]["subscriberCount"]
         self.video_count = self.channel["items"][0]["statistics"]["videoCount"]
         self.view_count = self.channel["items"][0]["statistics"]["viewCount"]
-        self.data = {"title": self.title, "description": self.description, "url": self.url,
-                     "subscriber_count": self.subscriber_count, "video_count": self.video_count,
-                     "view_count": self.view_count}
+        self.url = f"https://www.youtube.com/channel/{self.__channel_id}"
+
+    def __str__(self):
+        return f"{self.title} ({self.url})"
+
+    def __add__(self, other):
+        """складывает количество подписчиков с двух каналов"""
+        return int(self.subscriber_count) + int(other.subscriber_count)
+
+    def __sub__(self, other):
+        """вычитает количество подписчиков другого канала из основного"""
+        return int(self.subscriber_count) - int(other.subscriber_count)
+
+    def __lt__(self, other):
+        """сравнение меньше"""
+        return int(self.subscriber_count) < int(other.subscriber_count)
+
+    def __le__(self, other):
+        """сравнение меньше или равно"""
+        return int(self.subscriber_count) <= int(other.subscriber_count)
+
+    def __gt__(self, other):
+        """сравнение больше"""
+        return int(self.subscriber_count) > int(other.subscriber_count)
+
+    def __ge__(self, other):
+        """сравнение больше или равно"""
+        return int(self.subscriber_count) >= int(other.subscriber_count)
+
+    def __eq__(self, other):
+        """сравнение на идентичность"""
+        return int(self.subscriber_count) == int(other.subscriber_count)
 
     @property
     def channel_id(self):
