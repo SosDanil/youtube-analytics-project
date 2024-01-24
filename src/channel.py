@@ -3,7 +3,7 @@ import os
 
 from googleapiclient.discovery import build
 
-channel_id_Pasha = 'UCWAG9jHxDDCoLjDzr7FS1iA'  # Настольный Сюрр
+# channel_id_Pasha = 'UCWAG9jHxDDCoLjDzr7FS1iA'  # Настольный Сюрр
 
 
 class Channel:
@@ -71,17 +71,17 @@ class Channel:
         return build("youtube", 'v3', developerKey=api_key)
 
 
-if __name__ == '__main__':
-    PashaSurr = Channel(channel_id_Pasha)
-    PashaSurr.to_json("data_channel.json")
-    print(PashaSurr.channel_id)
-    print(PashaSurr.title)
-    print(PashaSurr.description)
-    print(PashaSurr.url)
-    print(PashaSurr.subscriber_count)
-    print(PashaSurr.video_count)
-    print(PashaSurr.view_count)
-    print(PashaSurr.get_service())
-    PashaSurr.print_info()
+# if __name__ == '__main__':
+#     PashaSurr = Channel(channel_id_Pasha)
+#     PashaSurr.to_json("data_channel.json")
+#     print(PashaSurr.channel_id)
+#     print(PashaSurr.title)
+#     print(PashaSurr.description)
+#     print(PashaSurr.url)
+#     print(PashaSurr.subscriber_count)
+#     print(PashaSurr.video_count)
+#     print(PashaSurr.view_count)
+#     print(PashaSurr.get_service())
+#     PashaSurr.print_info()
 
 
