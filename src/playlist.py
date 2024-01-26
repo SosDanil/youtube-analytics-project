@@ -14,7 +14,6 @@ class PlayList:
     def __init__(self, playlist_id):
         self.playlist_id = playlist_id
         self.url = f"https://www.youtube.com/playlist?list={playlist_id}"
-        # self.title =
 
     @property
     def total_duration(self):
