@@ -44,13 +44,18 @@ class PlayList:
 
     def get_video_response(self):
         """достает список из словарей с информацией по каждому видео из плейлиста"""
-        playlist_videos = PlayList.get_service().playlistItems().list(playlistId=self.playlist_id,
+        playlist_videos = self.get_service().playlistItems().list(playlistId=self.playlist_id,
                                                                       part='contentDetails', maxResults=50, ).execute()
 
         video_ids: list[str] = [video['contentDetails']['videoId'] for video in playlist_videos['items']]
-        video_response = PlayList.get_service().videos().list(part='contentDetails,statistics',
+        video_response = self.get_service().videos().list(part='contentDetails,statistics',
                                                               id=','.join(video_ids)).execute()
         return video_response
+
+    @property
+    def title(self):
+        playlist_info = self.get_service().playlists().list(id=self.playlist_id, part="snippet").execute()
+        return playlist_info['items'][0]['snippet']['title']
 
     @classmethod
     def get_service(cls):
