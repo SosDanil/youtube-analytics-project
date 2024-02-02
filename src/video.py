@@ -9,17 +9,23 @@ from googleapiclient.discovery import build
 
 class Video:
     def __init__(self, video_id):
-        self.video_id = video_id
-        self.video_response = Video.get_service().videos().list(part='snippet,statistics,contentDetails,topicDetails',
-                                                                id=video_id).execute()
-        self.video_title: str = self.video_response['items'][0]['snippet']['title']
-        self.view_count: int = self.video_response['items'][0]['statistics']['viewCount']
-        self.like_count: int = self.video_response['items'][0]['statistics']['likeCount']
-        self.video_url: str = f"https://youtu.be/{self.video_id}"
+        try:
+            self.video_id = video_id
+            self.video_response = self.get_service().videos().list(part='snippet,statistics,contentDetails,topicDetails',
+                                                                   id=video_id).execute()
+            self.title: str = self.video_response['items'][0]['snippet']['title']
+            self.view_count: int = self.video_response['items'][0]['statistics']['viewCount']
+            self.like_count: int = self.video_response['items'][0]['statistics']['likeCount']
+            self.video_url: str = f"https://youtu.be/{self.video_id}"
+        except IndexError:
+            self.title = None
+            self.view_count = None
+            self.like_count = None
+            self.video_url = None
 
     def __str__(self):
         """Возвращает название видео"""
-        return f"{self.video_title}"
+        return f"{self.title}"
 
     @staticmethod
     def printj(dict_to_print: dict) -> None:
@@ -39,7 +45,7 @@ class PLVideo(Video):
 
 
 # if __name__ == '__main__':
-    # test_video = Video(Pasha_Surr_antitop10)
+    # test_video = Video("broken_id")
     # test_video.printj(test_video.video_response)
     # print(test_video.video_title)
     # print(test_video.view_count)
